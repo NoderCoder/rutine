@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:rutine/main.dart';
 import './linepainters.dart';
 import './dayroutinerows.dart';
-import './habit_model.dart';
+import 'habit_model.dart';
 
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:intl/intl.dart';
@@ -82,6 +84,48 @@ class _TappableCircleState extends State<TappableCircle> {
   Color tappableCircleColor = Colors.white;
   bool isCircleTapped = false;
 
+  //New Code for hive
+  late Box<Habit> stampedHabitListBox;
+  @override
+  void initState() {
+    super.initState();
+    stampedHabitListBox = Hive.box(habitListBox);
+  }
+
+  Color getColour(bool isCompleted) {
+    Color tempColor = Colors.white;
+    if (isCompleted == true) {
+      if (widget.id == 1) {
+        tempColor = Color.fromRGBO(255, 59, 48, 1);
+      } else if (widget.id == 2) {
+        tempColor = Color.fromRGBO(255, 150, 1, 1);
+      } else if (widget.id == 3) {
+        tempColor = Color.fromRGBO(255, 204, 0, 1);
+      } else if (widget.id == 4) {
+        tempColor = Color.fromRGBO(52, 198, 90, 1);
+      } else if (widget.id == 5) {
+        tempColor = Color.fromRGBO(1, 122, 255, 1);
+      } else if (widget.id == 6) {
+        tempColor = Color.fromRGBO(89, 86, 212, 1);
+      }
+    } else {
+      tempColor = Colors.white;
+    }
+    return tempColor;
+  }
+
+//
+
+  void onButtonTap() {
+    isCircleTapped = !isCircleTapped;
+    tappableCircleColor = getColour(isCircleTapped);
+    Habit tempHabit = Habit(
+        Nameid: widget.id,
+        completed: isCircleTapped,
+        timeStamp: DateTime.now());
+    stampedHabitListBox.put("habits", tempHabit);
+  }
+
   // Color onCircleTap(Color color, int id) {
   //   // int tempcounter = 1;
   //   Habit tempHabit = Habit(
@@ -121,8 +165,9 @@ class _TappableCircleState extends State<TappableCircle> {
     double cRadius = 15;
     return InkWell(
       onTap: () => setState(() {
+        onButtonTap();
         // tappableCircleColor = onCircleTap(tappableCircleColor, widget.id);
-        isCircleTapped = !isCircleTapped;
+        // isCircleTapped = !isCircleTapped;
 
         for (var habit in habitList) {
           // habitListBox.add(habit.Nameid);

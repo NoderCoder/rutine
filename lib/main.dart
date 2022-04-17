@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+// import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rutine/routines/habit_model.dart';
 import 'routines/routineCircles.dart';
 
-void main() {
+//Hive
+const habitListBox = "habit_list_box";
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox<Habit>(habitListBox);
+  Hive.registerAdapter(HabitAdapter());
   runApp(const MyApp());
 }
 
