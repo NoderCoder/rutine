@@ -17,7 +17,7 @@ class HabitAdapter extends TypeAdapter<Habit> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Habit(
-      Nameid: fields[0] as int,
+      nameId: fields[0] as int,
       completed: fields[1] as bool,
       timeStamp: fields[2] as DateTime,
     );
@@ -28,7 +28,7 @@ class HabitAdapter extends TypeAdapter<Habit> {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.Nameid)
+      ..write(obj.nameId)
       ..writeByte(1)
       ..write(obj.completed)
       ..writeByte(2)

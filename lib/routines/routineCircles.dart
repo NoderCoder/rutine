@@ -60,13 +60,8 @@ class _StreakTableState extends State<StreakTable> {
 // List<Habit> habitList = List.empty(growable: true);
 List<Habit> habitList = [
   //firstlistitem kept due to error. Will need to omit this date
-  Habit(Nameid: 1, completed: false, timeStamp: DateTime.utc(1989, 11, 9))
+  Habit(nameId: 1, completed: false, timeStamp: DateTime.utc(1989, 11, 9))
 ];
-
-// final habitListBox = Hive.box(HabitListBox);
-// void putInBox() async {
-//   await habitListBox.put(256, [false, DateTime.now()]);
-// }
 
 //-------------------------
 //when moved to seperate file thsi creates error : gotta fix it
@@ -120,16 +115,22 @@ class _TappableCircleState extends State<TappableCircle> {
     isCircleTapped = !isCircleTapped;
     tappableCircleColor = getColour(isCircleTapped);
     Habit tempHabit = Habit(
-        Nameid: widget.id,
+        nameId: widget.id,
         completed: isCircleTapped,
         timeStamp: DateTime.now());
-    stampedHabitListBox.put("habits", tempHabit);
+    habitList.add(tempHabit);
+    stampedHabitListBox.add(tempHabit);
+
+    //printing objects
+    print("Values of the box : ${stampedHabitListBox.values}");
+    print("Lenght of the box : ${stampedHabitListBox.length}");
+    print("Keys of the box : ${stampedHabitListBox.keys}");
   }
 
   // Color onCircleTap(Color color, int id) {
   //   // int tempcounter = 1;
   //   Habit tempHabit = Habit(
-  //       Nameid: id, completed: !isCircleTapped, timeStamp: DateTime.now());
+  //       nameId: id, completed: !isCircleTapped, timeStamp: DateTime.now());
   //   if (color == Colors.white) {
   //     if (id == 1) {
   //       habitList.add(tempHabit);
@@ -170,9 +171,9 @@ class _TappableCircleState extends State<TappableCircle> {
         // isCircleTapped = !isCircleTapped;
 
         for (var habit in habitList) {
-          // habitListBox.add(habit.Nameid);
+          // habitListBox.add(habit.nameId);
           print(
-              " List lenght : ${habitList.length}  Name id : ${habit.Nameid} Completed : ${habit.completed} + datestamp : ${habit.timeStamp} ");
+              " List lenght : ${habitList.length}  Name id : ${habit.nameId} Completed : ${habit.completed} + datestamp : ${habit.timeStamp} ");
         }
 
         print("another one, DJ Kjhaleed");

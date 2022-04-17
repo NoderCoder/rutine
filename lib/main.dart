@@ -9,8 +9,8 @@ import 'routines/routineCircles.dart';
 const habitListBox = "habit_list_box";
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox<Habit>(habitListBox);
   Hive.registerAdapter(HabitAdapter());
+  await Hive.openBox<Habit>(habitListBox);
   runApp(const MyApp());
 }
 
@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xFFf7f5fd),
-          primaryColorDark: Color(0xFF180448),
-          primaryColorLight: Color(0xFF440fc0),
+          scaffoldBackgroundColor: const Color(0xFFf7f5fd),
+          primaryColorDark: const Color(0xFF180448),
+          primaryColorLight: const Color(0xFF440fc0),
           cardColor: Colors.white,
           accentColor: Color(0xFFffc946),
-          colorScheme: ColorScheme.light(),
+          colorScheme: const ColorScheme.light(),
           textTheme: GoogleFonts.allertaStencilTextTheme(),
           appBarTheme: AppBarTheme(
             titleTextStyle: TextStyle(

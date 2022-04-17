@@ -7,7 +7,7 @@ part 'habit_model.g.dart';
 @HiveType(typeId: 0)
 class Habit extends HiveObject {
   @HiveField(0)
-  int Nameid; //should be a number associated with name
+  int nameId; //should be a number associated with name
   @HiveField(1)
   bool completed;
   @HiveField(2)
@@ -16,7 +16,7 @@ class Habit extends HiveObject {
   // Icon icon;
 
   Habit({
-    required this.Nameid,
+    required this.nameId,
     required this.completed,
     required this.timeStamp,
   });
