@@ -5,12 +5,6 @@ import './linepainters.dart';
 import './dayroutinerows.dart';
 import 'habit_model.dart';
 
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:intl/intl.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-// import 'boxholder.dart';
-
 class StreakTable extends StatefulWidget {
   const StreakTable({Key? key}) : super(key: key);
   static String id = "StreakTable";
@@ -118,7 +112,6 @@ class _TappableCircleState extends State<TappableCircle> {
         nameId: widget.id,
         completed: isCircleTapped,
         timeStamp: DateTime.now());
-    habitList.add(tempHabit);
     stampedHabitListBox.add(tempHabit);
 
     //printing objects
@@ -127,54 +120,17 @@ class _TappableCircleState extends State<TappableCircle> {
     print("Keys of the box : ${stampedHabitListBox.keys}");
   }
 
-  // Color onCircleTap(Color color, int id) {
-  //   // int tempcounter = 1;
-  //   Habit tempHabit = Habit(
-  //       nameId: id, completed: !isCircleTapped, timeStamp: DateTime.now());
-  //   if (color == Colors.white) {
-  //     if (id == 1) {
-  //       habitList.add(tempHabit);
-  //       //to remove the first item in a list
-  //       // tempcounter == 1
-  //       //     ? habitList.removeAt(0)
-  //       //     : tempcounter = tempcounter + 1;
-  //       return Color.fromRGBO(255, 59, 48, 1);
-  //     } else if (id == 2) {
-  //       habitList.add(tempHabit);
-  //       return Color.fromRGBO(255, 150, 1, 1);
-  //     } else if (id == 3) {
-  //       habitList.add(tempHabit);
-  //       return Color.fromRGBO(255, 204, 0, 1);
-  //     } else if (id == 4) {
-  //       habitList.add(tempHabit);
-  //       return Color.fromRGBO(52, 198, 90, 1);
-  //     } else if (id == 5) {
-  //       habitList.add(tempHabit);
-  //       return Color.fromRGBO(1, 122, 255, 1);
-  //     } else if (id == 6) {
-  //       habitList.add(tempHabit);
-  //       return Color.fromRGBO(89, 86, 212, 1);
-  //     }
-  //   } else {
-  //     habitList.add(tempHabit);
-  //     return Colors.white;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     double cRadius = 15;
     return InkWell(
       onTap: () => setState(() {
         onButtonTap();
-        // tappableCircleColor = onCircleTap(tappableCircleColor, widget.id);
-        // isCircleTapped = !isCircleTapped;
-
-        for (var habit in habitList) {
-          // habitListBox.add(habit.nameId);
-          print(
-              " List lenght : ${habitList.length}  Name id : ${habit.nameId} Completed : ${habit.completed} + datestamp : ${habit.timeStamp} ");
-        }
+        // for (var habit in habitList) {
+        //   // habitListBox.add(habit.nameId);
+        //   print(
+        //       " List lenght : ${habitList.length}  Name id : ${habit.nameId} Completed : ${habit.completed} + datestamp : ${habit.timeStamp} ");
+        // }
 
         print("another one, DJ Kjhaleed");
       }),
