@@ -112,7 +112,18 @@ class _TappableCircleState extends State<TappableCircle> {
         nameId: widget.id,
         completed: isCircleTapped,
         timeStamp: DateTime.now());
-    stampedHabitListBox.add(tempHabit);
+
+    for (var habit in stampedHabitListBox.values) {
+      if (habit.nameId == tempHabit.nameId &&
+          habit.timeStamp.day == tempHabit.timeStamp.day &&
+          habit.timeStamp.month == tempHabit.timeStamp.month &&
+          habit.timeStamp.year == tempHabit.timeStamp.year) {
+        stampedHabitListBox.delete(habit.key);
+        stampedHabitListBox.putAt(habit.key, tempHabit);
+      } else {
+        stampedHabitListBox.putAt(stampedHabitListBox.length - 1, tempHabit);
+      }
+    }
 
     //printing objects
     print("Values of the box : ${stampedHabitListBox.values}");
@@ -126,11 +137,6 @@ class _TappableCircleState extends State<TappableCircle> {
     return InkWell(
       onTap: () => setState(() {
         onButtonTap();
-        // for (var habit in habitList) {
-        //   // habitListBox.add(habit.nameId);
-        //   print(
-        //       " List lenght : ${habitList.length}  Name id : ${habit.nameId} Completed : ${habit.completed} + datestamp : ${habit.timeStamp} ");
-        // }
 
         print("another one, DJ Kjhaleed");
       }),

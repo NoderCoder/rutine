@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rutine/main.dart';
+import 'package:rutine/routines/habit_model.dart';
 import './boxholder.dart';
+import './rutine_main.dart';
 
 import './linepainters.dart';
 import 'rutine_main.dart';
@@ -7,8 +10,9 @@ import 'rutine_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 
-class DayRoutineRow extends StatelessWidget {
+class DayRoutineRow extends StatefulWidget {
   Widget boxRow;
   String day;
   String date;
@@ -17,7 +21,28 @@ class DayRoutineRow extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<DayRoutineRow> createState() => _DayRoutineRowState();
+}
+
+class _DayRoutineRowState extends State<DayRoutineRow> {
+  late Box<Habit> stampedHabitsBox;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    stampedHabitsBox = Hive.box(habitListBox);
+  }
+
+  void printDebug() {
+    for (var habit in stampedHabitsBox.values) {
+      print(
+          "${habit.key} : ${habit.nameId} ${habit.completed} + ${habit.timeStamp}");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    printDebug();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -33,7 +58,7 @@ class DayRoutineRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    date,
+                    widget.date,
                     style: GoogleFonts.allertaStencil(
                         textStyle: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
@@ -44,7 +69,7 @@ class DayRoutineRow extends StatelessWidget {
                   RotatedBox(
                     quarterTurns: -1,
                     child: Text(
-                      day,
+                      widget.day,
                       style: GoogleFonts.allertaStencil(
                           textStyle: TextStyle(
                               fontSize: 11, fontWeight: FontWeight.normal)),
@@ -53,7 +78,7 @@ class DayRoutineRow extends StatelessWidget {
                 ],
               ),
             ),
-            boxRow,
+            widget.boxRow,
           ],
         ),
         CustomPaint(
@@ -92,17 +117,6 @@ class RoutineBoxHolderRow extends StatelessWidget {
   }
 }
 
-//Hold set of streakboxes in a row
-class StreakBoxHolderRow extends StatelessWidget {
-  const StreakBoxHolderRow({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: streakBoxHolderRowList(),
-    );
-  }
-}
-
 //this is what is displayed for the habits streaks
 List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
   List<DayRoutineRow> tempdayRoutineRowList = List.empty(growable: true);
@@ -114,7 +128,7 @@ List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
         day: DateFormat("E")
             .format(startDate.add(Duration(days: i)))
             .toUpperCase(),
-        boxRow: StreakBoxHolderRow(),
+        boxRow: Row(children: streakBoxHolderRowList()),
       ),
     );
   }
