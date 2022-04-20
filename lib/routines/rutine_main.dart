@@ -16,6 +16,13 @@ class StreakTable extends StatefulWidget {
 class _StreakTableState extends State<StreakTable> {
   final itemKey = GlobalKey();
   final scrollController = ScrollController();
+  late Box<Habit> stampedHabitListBox1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    stampedHabitListBox1 = Hive.box(habitListBox);
+  }
 
   @override
   void dispose() {
@@ -39,8 +46,8 @@ class _StreakTableState extends State<StreakTable> {
               child: ListView(
                   controller: scrollController,
                   //TODO1: currebntly betwen some months will need to make ist dynamic
-                  children: dayRoutineRowList(
-                      DateTime.utc(2022, 03), DateTime.utc(2022, 05))),
+                  children: dayRoutineRowList(DateTime.utc(2022, 03),
+                      DateTime.utc(2022, 05), stampedHabitListBox1)),
             ),
           ],
         ),
@@ -64,7 +71,12 @@ class TappableCircle extends StatefulWidget {
   // id will be used to define the number linked ot the daily habit
   final int id;
   final DateTime date;
-  TappableCircle({Key? key, required this.id, required this.date})
+  bool isCircleTapped;
+  TappableCircle(
+      {Key? key,
+      required this.id,
+      required this.date,
+      required this.isCircleTapped})
       : super(key: key);
 
   @override

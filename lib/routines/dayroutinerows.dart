@@ -118,7 +118,8 @@ class RoutineBoxHolderRow extends StatelessWidget {
 }
 
 //this is what is displayed for the habits streaks
-List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
+List<DayRoutineRow> dayRoutineRowList(
+    DateTime startDate, DateTime endDate, Box<Habit> stampedHabitsbox) {
   List<DayRoutineRow> tempdayRoutineRowList = List.empty(growable: true);
   List<DateTime> totalDays = List.empty(growable: true);
 
@@ -127,7 +128,7 @@ List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
   }
   for (var day in totalDays) {
     tempdayRoutineRowList.add(DayRoutineRow(
-        boxRow: Row(children: streakBoxHolderRowList(day)),
+        boxRow: Row(children: streakBoxHolderRowList(day, stampedHabitsbox)),
         day: DateFormat("E").format(day),
         date: DateFormat("d").format(day)));
   }
@@ -140,17 +141,37 @@ List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
 //   boxRow: RoutineBoxHolderRow(),
 // );
 
-List<BoxHolder> streakBoxHolderRowList(DateTime activityDate) {
+List<BoxHolder> streakBoxHolderRowList(
+    DateTime activityDate, Box<Habit> smpdHabitBox) {
   List<BoxHolder> tempstreakBoxHolderRowList = List.empty(growable: true);
   for (int i = 1; i <= 6; i++) {
-    tempstreakBoxHolderRowList.add(
-      BoxHolder(
-        boxHolderChildWidget: TappableCircle(
-          id: i,
-          date: activityDate,
-        ),
-      ),
-    );
+    for (Habit habit in smpdHabitBox.values) {
+      if (habit.timeStamp.day == activityDate.day &&
+          habit.timeStamp.month == activityDate.month &&
+          habit.timeStamp.year == activityDate.year) {
+        tempstreakBoxHolderRowList.add(
+          BoxHolder(
+            boxHolderChildWidget: TappableCircle(
+              id: i,
+              date: activityDate,
+              isCircleTapped: habit.completed,
+            ),
+          ),
+        );
+        break;
+      } else {
+        tempstreakBoxHolderRowList.add(
+          BoxHolder(
+            boxHolderChildWidget: TappableCircle(
+              id: i,
+              isCircleTapped: false,
+              date: activityDate,
+            ),
+          ),
+        );
+        break;
+      }
+    }
   }
   return tempstreakBoxHolderRowList;
 }
