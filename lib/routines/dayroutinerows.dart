@@ -120,17 +120,16 @@ class RoutineBoxHolderRow extends StatelessWidget {
 //this is what is displayed for the habits streaks
 List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
   List<DayRoutineRow> tempdayRoutineRowList = List.empty(growable: true);
+  List<DateTime> totalDays = List.empty(growable: true);
 
   for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
-    tempdayRoutineRowList.add(
-      DayRoutineRow(
-        date: DateFormat("d").format(startDate.add(Duration(days: i))),
-        day: DateFormat("E")
-            .format(startDate.add(Duration(days: i)))
-            .toUpperCase(),
-        boxRow: Row(children: streakBoxHolderRowList()),
-      ),
-    );
+    totalDays.add(startDate.add(Duration(days: i)));
+  }
+  for (var day in totalDays) {
+    tempdayRoutineRowList.add(DayRoutineRow(
+        boxRow: Row(children: streakBoxHolderRowList(day)),
+        day: DateFormat("E").format(day),
+        date: DateFormat("d").format(day)));
   }
   return tempdayRoutineRowList;
 }
@@ -141,12 +140,15 @@ List<DayRoutineRow> dayRoutineRowList(DateTime startDate, DateTime endDate) {
 //   boxRow: RoutineBoxHolderRow(),
 // );
 
-List<BoxHolder> streakBoxHolderRowList() {
+List<BoxHolder> streakBoxHolderRowList(DateTime activityDate) {
   List<BoxHolder> tempstreakBoxHolderRowList = List.empty(growable: true);
   for (int i = 1; i <= 6; i++) {
     tempstreakBoxHolderRowList.add(
       BoxHolder(
-        boxHolderChildWidget: TappableCircle(id: i),
+        boxHolderChildWidget: TappableCircle(
+          id: i,
+          date: activityDate,
+        ),
       ),
     );
   }

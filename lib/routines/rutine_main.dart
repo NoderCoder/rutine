@@ -63,7 +63,9 @@ List<Habit> habitList = [
 class TappableCircle extends StatefulWidget {
   // id will be used to define the number linked ot the daily habit
   final int id;
-  TappableCircle({Key? key, required this.id}) : super(key: key);
+  final DateTime date;
+  TappableCircle({Key? key, required this.id, required this.date})
+      : super(key: key);
 
   @override
   _TappableCircleState createState() => _TappableCircleState();
@@ -106,29 +108,48 @@ class _TappableCircleState extends State<TappableCircle> {
 //
 
   void onButtonTap() {
+    // int initialRun = 1;
+    bool matchFound = true;
     isCircleTapped = !isCircleTapped;
     tappableCircleColor = getColour(isCircleTapped);
     Habit tempHabit = Habit(
-        nameId: widget.id,
-        completed: isCircleTapped,
-        timeStamp: DateTime.now());
+        nameId: widget.id, completed: isCircleTapped, timeStamp: widget.date);
+    if (stampedHabitListBox.isEmpty) stampedHabitListBox.add(tempHabit);
 
-    for (var habit in stampedHabitListBox.values) {
+    for (Habit habit in stampedHabitListBox.values) {
+      print(
+          "${habit.key}  ${habit.nameId} ${tempHabit.nameId} ${habit.completed}${tempHabit.completed}");
+
       if (habit.nameId == tempHabit.nameId &&
           habit.timeStamp.day == tempHabit.timeStamp.day &&
           habit.timeStamp.month == tempHabit.timeStamp.month &&
           habit.timeStamp.year == tempHabit.timeStamp.year) {
-        stampedHabitListBox.delete(habit.key);
+        print("MATCH MATCH MATCH @ Key ${habit.key})");
+        matchFound = true;
         stampedHabitListBox.putAt(habit.key, tempHabit);
+        break;
+        // stampedHabitListBox.delete(habit.key);
+        // stampedHabitListBox.putAt(habit.key, tempHabit);
       } else {
-        stampedHabitListBox.putAt(stampedHabitListBox.length - 1, tempHabit);
+        print("mismatch");
+        matchFound = false;
+        // stampedHabitListBox.add(tempHabit);
       }
+      //loop to aleter the bax
     }
-
+    if (matchFound == false) {
+      stampedHabitListBox.add(tempHabit);
+      print("new entry added");
+    }
     //printing objects
-    print("Values of the box : ${stampedHabitListBox.values}");
+    // print("Values of the box : ${stampedHabitListBox.values}");
     print("Lenght of the box : ${stampedHabitListBox.length}");
-    print("Keys of the box : ${stampedHabitListBox.keys}");
+    //   print("Keys of the box : ${stampedHabitListBox.keys}");
+    // print(
+    //     "${stampedHabitListBox.values.last.completed} ${stampedHabitListBox.values.last.key} ${stampedHabitListBox.values.last.nameId}");
+    //clear box content
+
+    // stampedHabitListBox.clear();
   }
 
   @override
