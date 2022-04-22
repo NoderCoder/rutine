@@ -42,7 +42,7 @@ class _DayRoutineRowState extends State<DayRoutineRow> {
 
   @override
   Widget build(BuildContext context) {
-    printDebug();
+    // printDebug();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -128,50 +128,56 @@ List<DayRoutineRow> dayRoutineRowList(
   }
   for (var day in totalDays) {
     tempdayRoutineRowList.add(DayRoutineRow(
-        boxRow: Row(children: streakBoxHolderRowList(day, stampedHabitsbox)),
+        boxRow:
+            Row(children: singleStreakBoxHolderRowList(day, stampedHabitsbox)),
         day: DateFormat("E").format(day),
         date: DateFormat("d").format(day)));
   }
   return tempdayRoutineRowList;
 }
 
-// DayRoutineRow InitialIconRoutineRow = DayRoutineRow(
-//   day: "",
-//   date: "X)",
-//   boxRow: RoutineBoxHolderRow(),
-// );
+// ??logical erroer here fix the singleStreakBoxHolderRowList
 
-List<BoxHolder> streakBoxHolderRowList(
+List<BoxHolder> singleStreakBoxHolderRowList(
     DateTime activityDate, Box<Habit> smpdHabitBox) {
   List<BoxHolder> tempstreakBoxHolderRowList = List.empty(growable: true);
-  for (int i = 1; i <= 6; i++) {
-    for (Habit habit in smpdHabitBox.values) {
-      if (habit.timeStamp.day == activityDate.day &&
-          habit.timeStamp.month == activityDate.month &&
-          habit.timeStamp.year == activityDate.year) {
-        tempstreakBoxHolderRowList.add(
-          BoxHolder(
-            boxHolderChildWidget: TappableCircle(
-              id: i,
-              date: activityDate,
-              isCircleTapped: habit.completed,
-            ),
+  List<int> tempStampedNameIdList = List.empty(growable: true);
+  // for (int i = 1; i <= 6; i++) {}
+
+  for (Habit habit in smpdHabitBox.values) {
+    if (habit.timeStamp.day == activityDate.day &&
+        habit.timeStamp.month == activityDate.month &&
+        habit.timeStamp.year == activityDate.year) {
+      tempStampedNameIdList.add(habit.nameId);
+      tempstreakBoxHolderRowList.add(
+        BoxHolder(
+          boxHolderChildWidget: TappableCircle(
+            id: habit.nameId,
+            date: activityDate,
+            isCircleTapped: habit.completed,
           ),
-        );
-        break;
-      } else {
-        tempstreakBoxHolderRowList.add(
-          BoxHolder(
-            boxHolderChildWidget: TappableCircle(
-              id: i,
-              isCircleTapped: false,
-              date: activityDate,
+        ),
+      );
+    }
+  }
+
+  if (tempstreakBoxHolderRowList.length < 6) {
+    for (int i = 1; i <= 6; i++) {
+      for (int nameId in tempStampedNameIdList) {
+        if (i != nameId) {
+          tempstreakBoxHolderRowList.add(
+            BoxHolder(
+              boxHolderChildWidget: TappableCircle(
+                id: i,
+                isCircleTapped: false,
+                date: activityDate,
+              ),
             ),
-          ),
-        );
-        break;
+          );
+        }
       }
     }
   }
+
   return tempstreakBoxHolderRowList;
 }

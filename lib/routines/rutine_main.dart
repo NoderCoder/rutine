@@ -129,8 +129,8 @@ class _TappableCircleState extends State<TappableCircle> {
     if (stampedHabitListBox.isEmpty) stampedHabitListBox.add(tempHabit);
 
     for (Habit habit in stampedHabitListBox.values) {
-      print(
-          "${habit.key}  ${habit.nameId} ${tempHabit.nameId} ${habit.completed}${tempHabit.completed}");
+      // print(
+      // "${habit.key}  ${habit.nameId} ${tempHabit.nameId} ${habit.completed}${tempHabit.completed}");
 
       if (habit.nameId == tempHabit.nameId &&
           habit.timeStamp.day == tempHabit.timeStamp.day &&
